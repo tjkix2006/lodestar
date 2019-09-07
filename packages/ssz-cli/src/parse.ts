@@ -1,5 +1,5 @@
 import {loadYaml, dumpYaml} from "@chainsafe/eth2.0-spec-test-util";
-import {expandYamlValue, unexpandInput} from "@chainsafe/lodestar/src/util/expandYamlValue";
+import {expandYamlValue, unexpandInput} from "@chainsafe/ssz-util";
 
 function fromHexString(input: string): Buffer {
   return Buffer.from(input.replace("0x", ""), "hex");
