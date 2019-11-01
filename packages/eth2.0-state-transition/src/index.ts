@@ -11,6 +11,8 @@ import {IBeaconConfig} from "@chainsafe/eth2.0-config";
 import {processBlock} from "./block";
 import {processSlots} from "./slot";
 
+import { expose, spawn, Thread, Worker } from "threads";
+
 export * from "./util";
 export * from "./epoch";
 export * from "./block";

@@ -12,6 +12,7 @@ import {assembleBody} from "./body";
 import {IEth1Notifier} from "../../../eth1";
 import {processSlots, stateTransition,blockToHeader} from "@chainsafe/eth2.0-state-transition";
 import {IBeaconChain} from "../../interface";
+import { expose, spawn, Thread, Worker } from "threads";
 
 
 export async function assembleBlock(
@@ -42,10 +43,13 @@ export async function assembleBlock(
     body: await assembleBody(config, opPool, eth1, merkleTree, currentState, randao),
   };
 
+  const stat = await spawn(new Worker("../../../../../eth2.0-state-transition/src/stateTransition"))
+
   block.stateRoot = hashTreeRoot(
-    stateTransition(config, currentState, block, false, false),
+    await stat(config, currentState, block, false, false),
     config.types.BeaconState
   );
 
+  await Thread.terminate(stat)
   return block;
 }

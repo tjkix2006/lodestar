@@ -44,7 +44,8 @@
     "@chainsafe/eth2.0-utils": "^0.0.1",
     "@chainsafe/ssz": "^0.5.2",
     "bn.js": "^5.0.0",
-    "buffer-xor": "^2.0.2"
+    "buffer-xor": "^2.0.2",
+    "threads": "^1.0.0-beta.6"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",

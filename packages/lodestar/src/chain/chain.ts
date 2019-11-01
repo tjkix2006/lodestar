@@ -9,6 +9,8 @@ import {clone, hashTreeRoot, serialize, signingRoot} from "@chainsafe/ssz";
 import {Attestation, BeaconBlock, BeaconState, Hash, Slot, uint16, uint64} from "@chainsafe/eth2.0-types";
 import {IBeaconConfig} from "@chainsafe/eth2.0-config";
 
+import { spawn, Thread, Worker, Pool } from "threads"
+
 import {DEPOSIT_CONTRACT_TREE_DEPTH, GENESIS_SLOT} from "../constants";
 import {IBeaconDb} from "../db";
 import {IEth1Notifier} from "../eth1";
@@ -315,7 +317,9 @@ export class BeaconChain extends (EventEmitter as { new(): ChainEventEmitter }) 
     let newState: BeaconState;
     const blockRoot = signingRoot(block, this.config.types.BeaconBlock);
     try {
-      newState = stateTransition(this.config, state, block, true);
+      const stat = await spawn(new Worker("../../../eth2.0-state-transition/src/stateTransition"))
+      newState = await stat(this.config, state, block, true);
+      await Thread.terminate(stat)
     } catch (e) {
       // store block root in db and terminate
       await this.db.block.storeBadBlock(blockRoot);
