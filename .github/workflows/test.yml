@@ -21,6 +21,7 @@ jobs:
 
   check-types:
     name: Check types
+    needs: bootstrap
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
