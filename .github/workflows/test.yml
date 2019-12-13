@@ -31,7 +31,7 @@ jobs:
         path: node_modules
 
     # - name: Check types
-      run: npx lerna run check-types
+    -  run: npx lerna run check-types
 
     # - name: Lint
     #   run: npx lerna run lint
